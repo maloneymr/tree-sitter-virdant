@@ -47,7 +47,9 @@
   "tree-sitter": [
     {
       "scope": "source.virdant",
-      "injection-regex": "^virdant$"
+      "injection-regex": "vir",
+      "file-types": ["vir"],
+      "highlights": "queries/highlights.scm"
     }
   ]
 }

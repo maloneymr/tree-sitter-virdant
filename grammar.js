@@ -29,64 +29,59 @@ module.exports = grammar({
       $.reg,
     ),
 
-    incoming: $ => seq("incoming", field("name", $.id), ":", field("type", $.typ)),
-    outgoing: $ => seq("outgoing", field("name", $.id), ":", field("type", $.typ)),
-    reg: $ => seq("reg", field("name", $.id), ":", field("type", $.typ), "on", field("on", $.path)),
+    incoming: $ => seq("incoming", field("name", $.id), ":", field("type", $.type)),
+    outgoing: $ => seq("outgoing", field("name", $.id), ":", field("type", $.type)),
+    reg: $ => seq("reg", field("name", $.id), ":", field("type", $.type), "on", field("on", $.path)),
 
     connect: $ => choice(
-      seq(field("target", $.path), field("connect_type", field("expr", $._connect_type)), $.expr),
+      seq(field("target", $.path), field("connect_type", $.connect_type), field("expr", $.expr)),
     ),
 
-    _connect_type: $ => choice(
+    connect_type: $ => choice(
       $.direct,
       $.latched,
     ),
 
     direct: $ => ":=",
-
     latched: $ => "<=",
 
     expr: $ => choice(
-//      _expr_if,
-      $._expr_call,
+      $.expr_call,
+      $.expr_idx,
+      $.expr_lit,
+      $.expr_reference,
+      seq("(", $.expr, ")"),
     ),
 
-//    _expr_if:
-
-    _expr_call: $ => choice(
-      seq($._expr_call, "->", $.id, "(", optional($._expr_list), ")"),
-      $._expr_idx,
+    expr_call: $ => choice(
+      seq(field("subject", $.expr), "->", field("method", $.id), "(", field("args", optional($._expr_list)), ")"),
     ),
 
-    _expr_idx: $ => choice(
-      $._expr_base,
+    expr_idx: $ => choice(
+      seq($.expr, "[", $.nat, "]"),
     ),
 
-    _expr_base: $ => choice(
-      $._expr_lit,
-      $._expr_reference,
-      seq("(", $.expr, ")")
-    ),
-
-    _expr_lit: $ => $._word_lit,
-    _expr_reference: $ => $.path,
+    expr_lit: $ => $._word_lit,
+    expr_reference: $ => $.path,
 
     _word_lit: $ => choice(
       $.nat,
-      /[0-9][_0-9]*w[0-9]+/,
+      $.word,
     ),
 
     _expr_list: $ => seq($.expr, repeat(seq(",", $.expr)), optional(",")),
 
-    typ: $ => choice(
-      "Clock",
-      seq("Word", "[", $.nat, "]"),
+    type: $ => choice(
+      $.type_clock,
+      $.type_word,
     ),
 
+    type_clock: $ => "Clock",
+    type_word: $ => seq("Word", "[", $.nat, "]"),
+
     path: $ => /(([_A-Za-z][_A-Za-z0-9]*)\.)*([_A-Za-z][_A-Za-z0-9]*)/,
-
+    word: $ => /[0-9][_0-9]*w[0-9]+/,
     nat: $ => /[0-9][_0-9]*/,
-
     id: $ => /[_A-Za-z][_A-Za-z0-9]*/,
   }
 });

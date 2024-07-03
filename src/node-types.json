@@ -8,11 +8,17 @@
         "required": true,
         "types": [
           {
-            "type": "direct",
+            "type": "connect_type",
             "named": true
-          },
+          }
+        ]
+      },
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "latched",
+            "type": "expr",
             "named": true
           }
         ]
@@ -27,13 +33,22 @@
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "connect_type",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "direct",
+          "named": true
+        },
+        {
+          "type": "latched",
           "named": true
         }
       ]
@@ -44,21 +59,118 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "expr",
           "named": true
         },
         {
-          "type": "id",
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_idx",
+          "named": true
+        },
+        {
+          "type": "expr_lit",
+          "named": true
+        },
+        {
+          "type": "expr_reference",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_call",
+    "named": true,
+    "fields": {
+      "args": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      },
+      "method": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
+      "subject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_idx",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         },
         {
           "type": "nat",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nat",
+          "named": true
         },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_reference",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
         {
           "type": "path",
           "named": true
@@ -85,7 +197,7 @@
         "required": true,
         "types": [
           {
-            "type": "typ",
+            "type": "type",
             "named": true
           }
         ]
@@ -164,7 +276,7 @@
         "required": true,
         "types": [
           {
-            "type": "typ",
+            "type": "type",
             "named": true
           }
         ]
@@ -215,7 +327,7 @@
         "required": true,
         "types": [
           {
-            "type": "typ",
+            "type": "type",
             "named": true
           }
         ]
@@ -223,12 +335,31 @@
     }
   },
   {
-    "type": "typ",
+    "type": "type",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type_clock",
+          "named": true
+        },
+        {
+          "type": "type_word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "type_word",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "nat",
@@ -259,10 +390,6 @@
   },
   {
     "type": ";",
-    "named": false
-  },
-  {
-    "type": "Clock",
     "named": false
   },
   {
@@ -320,6 +447,14 @@
   {
     "type": "reg",
     "named": false
+  },
+  {
+    "type": "type_clock",
+    "named": true
+  },
+  {
+    "type": "word",
+    "named": true
   },
   {
     "type": "{",
