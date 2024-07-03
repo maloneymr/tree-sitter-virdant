@@ -4,6 +4,12 @@
 module.exports = grammar({
   name: "virdant",
 
+  extras: $ => [
+    $.comment_line,
+    $.comment_block,
+    /\s/,
+  ],
+
   rules: {
     package: $ => repeat($.item),
 
@@ -83,5 +89,15 @@ module.exports = grammar({
     word: $ => /[0-9][_0-9]*w[0-9]+/,
     nat: $ => /[0-9][_0-9]*/,
     id: $ => /[_A-Za-z][_A-Za-z0-9]*/,
+
+    comment_line: _ => token(seq('//', /[^\n]*/)),
+
+    comment_block: _ => token(
+      seq(
+        '/*',
+        /[^*]*\*+([^/*][^*]*\*+)*/,
+        '/',
+      ),
+    ),
   }
 });

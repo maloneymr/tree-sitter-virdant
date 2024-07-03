@@ -405,6 +405,14 @@
     "named": false
   },
   {
+    "type": "comment_block",
+    "named": true
+  },
+  {
+    "type": "comment_line",
+    "named": true
+  },
+  {
     "type": "direct",
     "named": true
   },

@@ -483,9 +483,53 @@
     "id": {
       "type": "PATTERN",
       "value": "[_A-Za-z][_A-Za-z0-9]*"
+    },
+    "comment_line": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "//"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^\\n]*"
+          }
+        ]
+      }
+    },
+    "comment_block": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "/*"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+          },
+          {
+            "type": "STRING",
+            "value": "/"
+          }
+        ]
+      }
     }
   },
   "extras": [
+    {
+      "type": "SYMBOL",
+      "name": "comment_line"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "comment_block"
+    },
     {
       "type": "PATTERN",
       "value": "\\s"
