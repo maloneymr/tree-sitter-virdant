@@ -1,10 +1,12 @@
 [
-    "module"
-    "public"
+    "mod"
+    "pub"
     "incoming"
     "outgoing"
+    "node"
     "reg"
     "on"
+    "of"
 ] @keyword
 
 (connect connect_type: (connect_type) @keyword)

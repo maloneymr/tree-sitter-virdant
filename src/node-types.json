@@ -247,14 +247,48 @@
           "named": true
         },
         {
+          "type": "node",
+          "named": true
+        },
+        {
           "type": "outgoing",
           "named": true
         },
         {
           "type": "reg",
           "named": true
+        },
+        {
+          "type": "submodule",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "node",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -328,6 +362,32 @@
         "types": [
           {
             "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "submodule",
+    "named": true,
+    "fields": {
+      "module": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "id",
             "named": true
           }
         ]
@@ -429,12 +489,20 @@
     "named": true
   },
   {
-    "type": "module",
+    "type": "mod",
     "named": false
   },
   {
     "type": "nat",
     "named": true
+  },
+  {
+    "type": "node",
+    "named": false
+  },
+  {
+    "type": "of",
+    "named": false
   },
   {
     "type": "on",
@@ -449,7 +517,7 @@
     "named": true
   },
   {
-    "type": "public",
+    "type": "pub",
     "named": false
   },
   {

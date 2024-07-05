@@ -25,7 +25,7 @@
           "members": [
             {
               "type": "STRING",
-              "value": "public"
+              "value": "pub"
             },
             {
               "type": "BLANK"
@@ -34,7 +34,7 @@
         },
         {
           "type": "STRING",
-          "value": "module"
+          "value": "mod"
         },
         {
           "type": "FIELD",
@@ -80,6 +80,10 @@
         {
           "type": "SYMBOL",
           "name": "connect"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "submodule"
         }
       ]
     },
@@ -93,6 +97,10 @@
         {
           "type": "SYMBOL",
           "name": "outgoing"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "node"
         },
         {
           "type": "SYMBOL",
@@ -135,6 +143,35 @@
         {
           "type": "STRING",
           "value": "outgoing"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "id"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
+        }
+      ]
+    },
+    "node": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "node"
         },
         {
           "type": "FIELD",
@@ -230,6 +267,35 @@
               }
             }
           ]
+        }
+      ]
+    },
+    "submodule": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "mod"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "id"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "of"
+        },
+        {
+          "type": "FIELD",
+          "name": "module",
+          "content": {
+            "type": "SYMBOL",
+            "name": "id"
+          }
         }
       ]
     },

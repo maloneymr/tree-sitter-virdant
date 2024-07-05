@@ -19,7 +19,7 @@ module.exports = grammar({
     ),
 
     moddef: $ => seq(
-      optional("public"), "module", field("name", $.id), "{",
+      optional("pub"), "mod", field("name", $.id), "{",
         repeat(seq($._decl, ";")),
       "}",
     ),
@@ -27,21 +27,26 @@ module.exports = grammar({
     _decl: $ => choice(
       $._component,
       $.connect,
+      $.submodule,
     ),
 
     _component: $ => choice(
       $.incoming,
       $.outgoing,
+      $.node,
       $.reg,
     ),
 
     incoming: $ => seq("incoming", field("name", $.id), ":", field("type", $.type)),
     outgoing: $ => seq("outgoing", field("name", $.id), ":", field("type", $.type)),
+    node: $ => seq("node", field("name", $.id), ":", field("type", $.type)),
     reg: $ => seq("reg", field("name", $.id), ":", field("type", $.type), "on", field("on", $.path)),
 
     connect: $ => choice(
       seq(field("target", $.path), field("connect_type", $.connect_type), field("expr", $.expr)),
     ),
+
+    submodule: $ => seq("mod", field("name", $.id), "of", field("module", $.id)),
 
     connect_type: $ => choice(
       $.direct,
