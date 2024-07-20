@@ -1,5 +1,52 @@
 [
   {
+    "type": "alt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "typelist",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "channel",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "channeldir",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "channeldir",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "connect",
     "named": true,
     "fields": {
@@ -75,7 +122,15 @@
           "named": true
         },
         {
+          "type": "expr_if",
+          "named": true
+        },
+        {
           "type": "expr_lit",
+          "named": true
+        },
+        {
+          "type": "expr_match",
           "named": true
         },
         {
@@ -105,17 +160,17 @@
       },
       "method": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
       },
       "subject": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "expr",
@@ -123,6 +178,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "ctor",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -139,6 +204,21 @@
         },
         {
           "type": "nat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_if",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         }
       ]
@@ -164,6 +244,29 @@
     }
   },
   {
+    "type": "expr_match",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "match_arm",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expr_reference",
     "named": true,
     "fields": {},
@@ -179,6 +282,25 @@
     }
   },
   {
+    "type": "field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "incoming",
     "named": true,
     "fields": {
@@ -187,7 +309,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
@@ -215,6 +337,37 @@
         {
           "type": "moddef",
           "named": true
+        },
+        {
+          "type": "portdef",
+          "named": true
+        },
+        {
+          "type": "structdef",
+          "named": true
+        },
+        {
+          "type": "uniondef",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "match_arm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "pat",
+          "named": true
         }
       ]
     }
@@ -228,7 +381,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
@@ -274,7 +427,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
@@ -300,7 +453,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
@@ -328,6 +481,82 @@
         {
           "type": "item",
           "named": true
+        },
+        {
+          "type": "package_import",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_import",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ctor",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "patlist",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "patlist",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "pat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "portdef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "channel",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
         }
       ]
     }
@@ -341,7 +570,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
@@ -369,6 +598,25 @@
     }
   },
   {
+    "type": "structdef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "submodule",
     "named": true,
     "fields": {
@@ -377,7 +625,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "qualident",
             "named": true
           }
         ]
@@ -387,7 +635,7 @@
         "required": true,
         "types": [
           {
-            "type": "id",
+            "type": "ident",
             "named": true
           }
         ]
@@ -402,6 +650,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "qualident",
+          "named": true
+        },
         {
           "type": "type_clock",
           "named": true
@@ -429,6 +681,45 @@
     }
   },
   {
+    "type": "typelist",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "uniondef",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "alt",
+          "named": true
+        },
+        {
+          "type": "ident",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "word",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -445,11 +736,19 @@
     "named": false
   },
   {
+    "type": "..",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
   {
     "type": ";",
+    "named": false
+  },
+  {
+    "type": "=>",
     "named": false
   },
   {
@@ -473,12 +772,32 @@
     "named": true
   },
   {
+    "type": "ctor",
+    "named": true
+  },
+  {
     "type": "direct",
     "named": true
   },
   {
-    "type": "id",
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "ext",
+    "named": false
+  },
+  {
+    "type": "ident",
     "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
   },
   {
     "type": "incoming",
@@ -489,7 +808,19 @@
     "named": true
   },
   {
+    "type": "match",
+    "named": false
+  },
+  {
+    "type": "miso",
+    "named": false
+  },
+  {
     "type": "mod",
+    "named": false
+  },
+  {
+    "type": "mosi",
     "named": false
   },
   {
@@ -517,11 +848,27 @@
     "named": true
   },
   {
+    "type": "port",
+    "named": false
+  },
+  {
     "type": "pub",
     "named": false
   },
   {
+    "type": "qualident",
+    "named": true
+  },
+  {
     "type": "reg",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {
@@ -529,8 +876,8 @@
     "named": true
   },
   {
-    "type": "word",
-    "named": true
+    "type": "union",
+    "named": false
   },
   {
     "type": "{",

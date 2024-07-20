@@ -11,17 +11,61 @@ module.exports = grammar({
   ],
 
   rules: {
-    package: $ => repeat($.item),
+    package: $ => seq(
+      repeat($.package_import),
+      repeat($.item),
+    ),
+
+    package_import: $ => seq("import", $.ident, ";"),
 
     item: $ => choice(
       $.moddef,
-//      $.structdef,
+      $.structdef,
+      $.uniondef,
+      $.portdef,
     ),
 
+    visibility: $ => optional("pub"),
+
     moddef: $ => seq(
-      optional("pub"), "mod", field("name", $.id), "{",
+      optional("pub"), optional("ext"), "mod", field("name", $.ident), "{",
         repeat(seq($._decl, ";")),
       "}",
+    ),
+
+    structdef: $ => seq(
+      "struct", "type", $.ident, "{",
+        repeat($.field),
+      "}"
+    ),
+
+    field: $ => seq($.ident, ":", $.type, ";"),
+
+    uniondef: $ => seq(
+      "union", "type", $.ident, "{",
+        repeat($.alt),
+      "}"
+    ),
+
+    alt: $ => seq($.ident, "(", optional($.typelist), ")", ";"),
+
+    portdef: $ => seq(
+      "port", $.ident, "{",
+        repeat($.channel),
+      "}"
+    ),
+
+    channel: $ => seq($.channeldir, $.ident, ":", $.type, ";"),
+
+    channeldir: $ => choice(
+      "mosi",
+      "miso",
+    ),
+
+    typelist: $ => seq(
+      $.type,
+      repeat(seq(",", $.type)),
+      optional(","),
     ),
 
     _decl: $ => choice(
@@ -37,16 +81,16 @@ module.exports = grammar({
       $.reg,
     ),
 
-    incoming: $ => seq("incoming", field("name", $.id), ":", field("type", $.type)),
-    outgoing: $ => seq("outgoing", field("name", $.id), ":", field("type", $.type)),
-    node: $ => seq("node", field("name", $.id), ":", field("type", $.type)),
-    reg: $ => seq("reg", field("name", $.id), ":", field("type", $.type), "on", field("on", $.path)),
+    incoming: $ => seq("incoming", field("name", $.ident), ":", field("type", $.type)),
+    outgoing: $ => seq("outgoing", field("name", $.ident), ":", field("type", $.type)),
+    node: $ => seq("node", field("name", $.ident), ":", field("type", $.type)),
+    reg: $ => seq("reg", field("name", $.ident), ":", field("type", $.type), "on", field("on", $.path)),
 
     connect: $ => choice(
       seq(field("target", $.path), field("connect_type", $.connect_type), field("expr", $.expr)),
     ),
 
-    submodule: $ => seq("mod", field("name", $.id), "of", field("module", $.id)),
+    submodule: $ => seq("mod", field("name", $.ident), "of", field("module", $.qualident)),
 
     connect_type: $ => choice(
       $.direct,
@@ -57,6 +101,8 @@ module.exports = grammar({
     latched: $ => "<=",
 
     expr: $ => choice(
+      $.expr_if,
+      $.expr_match,
       $.expr_call,
       $.expr_idx,
       $.expr_lit,
@@ -64,20 +110,51 @@ module.exports = grammar({
       seq("(", $.expr, ")"),
     ),
 
+    expr_if: $ => seq(
+      "if", $.expr, "{",
+        $.expr,
+      repeat(seq("}", "else", "if", $.expr, "{")),
+      "}", "else", "{",
+        $.expr,
+      "}",
+    ),
+
+    expr_match: $ => seq(
+      "match", $.expr, optional(seq(":", $.type)), "{",
+        repeat($.match_arm),
+      "}",
+    ),
+
+    match_arm: $ => seq($.pat, "=>", $.expr, ";"),
+
+    pat: $ => choice(
+      seq($.ctor, "(", optional($.patlist), ")"),
+      $.ident,
+      "else",
+    ),
+
+    patlist: $ => seq(
+      $.pat,
+      repeat(seq(",", $.pat)),
+      optional(","),
+    ),
+
     expr_call: $ => choice(
-      seq(field("subject", $.expr), "->", field("method", $.id), "(", field("args", optional($._expr_list)), ")"),
+      seq(field("subject", $.expr), "->", field("method", $.ident), "(", field("args", optional($._expr_list)), ")"),
+      seq($.ctor, "(", field("args", optional($._expr_list)), ")"),
     ),
 
     expr_idx: $ => choice(
       seq($.expr, "[", $.nat, "]"),
+      seq($.expr, "[", $.nat, "..", $.nat, "]"),
     ),
 
     expr_lit: $ => $._word_lit,
     expr_reference: $ => $.path,
 
     _word_lit: $ => choice(
-      $.nat,
       $.word,
+      $.nat,
     ),
 
     _expr_list: $ => seq($.expr, repeat(seq(",", $.expr)), optional(",")),
@@ -85,15 +162,22 @@ module.exports = grammar({
     type: $ => choice(
       $.type_clock,
       $.type_word,
+      $.qualident,
     ),
 
     type_clock: $ => "Clock",
     type_word: $ => seq("Word", "[", $.nat, "]"),
 
     path: $ => /(([_A-Za-z][_A-Za-z0-9]*)\.)*([_A-Za-z][_A-Za-z0-9]*)/,
-    word: $ => /[0-9][_0-9]*w[0-9]+/,
+    word: $ => choice(
+      /0b[0-1][_0-1]*(w[0-9]+)?/,
+      /0x[0-9A-Fa-f][_0-9A-Fa-f]*(w[0-9]+)?/,
+      /[1-9][_0-9]*(w[0-9]+)?/,
+    ),
     nat: $ => /[0-9][_0-9]*/,
-    id: $ => /[_A-Za-z][_A-Za-z0-9]*/,
+    ctor: $ => /@[_A-Za-z][_A-Za-z0-9]*/,
+    qualident: $ => /([_A-Za-z][_A-Za-z0-9]*::)?[_A-Za-z][_A-Za-z0-9]*/,
+    ident: $ => /[_A-Za-z][_A-Za-z0-9]*/,
 
     comment_line: _ => token(seq('//', /[^\n]*/)),
 
