@@ -545,17 +545,24 @@
   {
     "type": "portdef",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "channel",
-          "named": true
-        },
-        {
-          "type": "ident",
           "named": true
         }
       ]
@@ -600,17 +607,24 @@
   {
     "type": "structdef",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "field",
-          "named": true
-        },
-        {
-          "type": "ident",
           "named": true
         }
       ]
@@ -698,17 +712,24 @@
   {
     "type": "uniondef",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "alt",
-          "named": true
-        },
-        {
-          "type": "ident",
           "named": true
         }
       ]

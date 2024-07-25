@@ -34,7 +34,7 @@ module.exports = grammar({
     ),
 
     structdef: $ => seq(
-      "struct", "type", $.ident, "{",
+      "struct", "type", field("name", $.ident), "{",
         repeat($.field),
       "}"
     ),
@@ -42,7 +42,7 @@ module.exports = grammar({
     field: $ => seq($.ident, ":", $.type, ";"),
 
     uniondef: $ => seq(
-      "union", "type", $.ident, "{",
+      "union", "type", field("name", $.ident), "{",
         repeat($.alt),
       "}"
     ),
@@ -50,7 +50,7 @@ module.exports = grammar({
     alt: $ => seq($.ident, "(", optional($.typelist), ")", ";"),
 
     portdef: $ => seq(
-      "port", $.ident, "{",
+      "port", field("name", $.ident), "{",
         repeat($.channel),
       "}"
     ),
