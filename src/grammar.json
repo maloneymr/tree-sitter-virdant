@@ -390,6 +390,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "implicit"
+        },
+        {
+          "type": "SYMBOL",
           "name": "incoming"
         },
         {
@@ -403,6 +407,39 @@
         {
           "type": "SYMBOL",
           "name": "reg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "port"
+        }
+      ]
+    },
+    "implicit": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "implicit"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "type"
+          }
         }
       ]
     },
@@ -531,6 +568,56 @@
             "type": "SYMBOL",
             "name": "path"
           }
+        }
+      ]
+    },
+    "port": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "role",
+          "content": {
+            "type": "SYMBOL",
+            "name": "port_role"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "port"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "of"
+        },
+        {
+          "type": "FIELD",
+          "name": "portdef",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          }
+        }
+      ]
+    },
+    "port_role": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "master"
+        },
+        {
+          "type": "STRING",
+          "value": "slave"
         }
       ]
     },

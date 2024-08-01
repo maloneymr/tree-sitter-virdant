@@ -75,16 +75,25 @@ module.exports = grammar({
     ),
 
     _component: $ => choice(
+      $.implicit,
       $.incoming,
       $.outgoing,
       $.node,
       $.reg,
+      $.port,
     ),
 
+    implicit: $ => seq("implicit", field("name", $.ident), ":", field("type", $.type)),
     incoming: $ => seq("incoming", field("name", $.ident), ":", field("type", $.type)),
     outgoing: $ => seq("outgoing", field("name", $.ident), ":", field("type", $.type)),
     node: $ => seq("node", field("name", $.ident), ":", field("type", $.type)),
-    reg: $ => seq("reg", field("name", $.ident), ":", field("type", $.type), "on", field("on", $.path)),
+    reg: $ => seq("reg", field("name", $.ident), ":", field("type", $.type), choice("on", field("on", $.path))),
+    port: $ => seq(field("role", $.port_role), "port", field("name", $.ident), "of", field("portdef", $.ident)),
+
+    port_role: $ => choice(
+      "master",
+      "slave",
+    ),
 
     connect: $ => choice(
       seq(field("target", $.path), field("connect_type", $.connect_type), field("expr", $.expr)),
