@@ -46,6 +46,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "builtindef"
+        },
+        {
+          "type": "SYMBOL",
           "name": "structdef"
         },
         {
@@ -54,7 +58,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "portdef"
+          "name": "socketdef"
         }
       ]
     },
@@ -128,6 +132,35 @@
               }
             ]
           }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "builtindef": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "builtin"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "STRING",
@@ -261,12 +294,12 @@
         }
       ]
     },
-    "portdef": {
+    "socketdef": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "port"
+          "value": "socket"
         },
         {
           "type": "FIELD",
@@ -410,7 +443,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "port"
+          "name": "socket"
         }
       ]
     },
@@ -558,20 +591,25 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "on"
-        },
-        {
-          "type": "FIELD",
-          "name": "on",
-          "content": {
-            "type": "SYMBOL",
-            "name": "path"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "on"
+            },
+            {
+              "type": "FIELD",
+              "name": "on",
+              "content": {
+                "type": "SYMBOL",
+                "name": "path"
+              }
+            }
+          ]
         }
       ]
     },
-    "port": {
+    "socket": {
       "type": "SEQ",
       "members": [
         {
@@ -579,12 +617,12 @@
           "name": "role",
           "content": {
             "type": "SYMBOL",
-            "name": "port_role"
+            "name": "socket_role"
           }
         },
         {
           "type": "STRING",
-          "value": "port"
+          "value": "socket"
         },
         {
           "type": "FIELD",
@@ -600,7 +638,7 @@
         },
         {
           "type": "FIELD",
-          "name": "portdef",
+          "name": "socketdef",
           "content": {
             "type": "SYMBOL",
             "name": "ident"
@@ -608,7 +646,7 @@
         }
       ]
     },
-    "port_role": {
+    "socket_role": {
       "type": "CHOICE",
       "members": [
         {
@@ -1112,14 +1150,23 @@
       ]
     },
     "expr_lit": {
-      "type": "SYMBOL",
-      "name": "_word_lit"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "word_lit"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "bool"
+        }
+      ]
     },
     "expr_reference": {
       "type": "SYMBOL",
       "name": "path"
     },
-    "_word_lit": {
+    "word_lit": {
       "type": "CHOICE",
       "members": [
         {
@@ -1129,6 +1176,19 @@
         {
           "type": "SYMBOL",
           "name": "nat"
+        }
+      ]
+    },
+    "bool": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
         }
       ]
     },
@@ -1182,6 +1242,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "type_bit"
+        },
+        {
+          "type": "SYMBOL",
           "name": "qualident"
         }
       ]
@@ -1210,6 +1274,10 @@
           "value": "]"
         }
       ]
+    },
+    "type_bit": {
+      "type": "STRING",
+      "value": "Bit"
     },
     "path": {
       "type": "PATTERN",

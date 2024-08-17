@@ -19,6 +19,27 @@
     }
   },
   {
+    "type": "bool",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "builtindef",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "channel",
     "named": true,
     "fields": {},
@@ -233,11 +254,11 @@
       "required": true,
       "types": [
         {
-          "type": "nat",
+          "type": "bool",
           "named": true
         },
         {
-          "type": "word",
+          "type": "word_lit",
           "named": true
         }
       ]
@@ -361,11 +382,15 @@
       "required": true,
       "types": [
         {
+          "type": "builtindef",
+          "named": true
+        },
+        {
           "type": "moddef",
           "named": true
         },
         {
-          "type": "portdef",
+          "type": "socketdef",
           "named": true
         },
         {
@@ -438,11 +463,11 @@
           "named": true
         },
         {
-          "type": "port",
+          "type": "reg",
           "named": true
         },
         {
-          "type": "reg",
+          "type": "socket",
           "named": true
         },
         {
@@ -577,7 +602,7 @@
     }
   },
   {
-    "type": "port",
+    "type": "reg",
     "named": true,
     "fields": {
       "name": {
@@ -590,7 +615,33 @@
           }
         ]
       },
-      "portdef": {
+      "on": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "socket",
+    "named": true,
+    "fields": {
+      "name": {
         "multiple": false,
         "required": true,
         "types": [
@@ -605,7 +656,17 @@
         "required": true,
         "types": [
           {
-            "type": "port_role",
+            "type": "socket_role",
+            "named": true
+          }
+        ]
+      },
+      "socketdef": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
             "named": true
           }
         ]
@@ -613,12 +674,12 @@
     }
   },
   {
-    "type": "port_role",
+    "type": "socket_role",
     "named": true,
     "fields": {}
   },
   {
-    "type": "portdef",
+    "type": "socketdef",
     "named": true,
     "fields": {
       "name": {
@@ -641,42 +702,6 @@
           "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "reg",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
-      "on": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "path",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -741,6 +766,10 @@
       "types": [
         {
           "type": "qualident",
+          "named": true
+        },
+        {
+          "type": "type_bit",
           "named": true
         },
         {
@@ -816,6 +845,25 @@
     "fields": {}
   },
   {
+    "type": "word_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nat",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -860,6 +908,10 @@
     "named": false
   },
   {
+    "type": "builtin",
+    "named": false
+  },
+  {
     "type": "comment_block",
     "named": true
   },
@@ -881,6 +933,10 @@
   },
   {
     "type": "ext",
+    "named": false
+  },
+  {
+    "type": "false",
     "named": false
   },
   {
@@ -952,10 +1008,6 @@
     "named": true
   },
   {
-    "type": "port",
-    "named": false
-  },
-  {
     "type": "pub",
     "named": false
   },
@@ -972,12 +1024,24 @@
     "named": false
   },
   {
+    "type": "socket",
+    "named": false
+  },
+  {
     "type": "struct",
+    "named": false
+  },
+  {
+    "type": "true",
     "named": false
   },
   {
     "type": "type",
     "named": false
+  },
+  {
+    "type": "type_bit",
+    "named": true
   },
   {
     "type": "type_clock",

@@ -20,9 +20,10 @@ module.exports = grammar({
 
     item: $ => choice(
       $.moddef,
+      $.builtindef,
       $.structdef,
       $.uniondef,
-      $.portdef,
+      $.socketdef,
     ),
 
     visibility: $ => optional("pub"),
@@ -31,6 +32,11 @@ module.exports = grammar({
       optional("pub"), optional("ext"), "mod", field("name", $.ident), "{",
         repeat(seq($._decl, ";")),
       "}",
+    ),
+
+    builtindef: $ => seq(
+      "builtin", "type", field("name", $.ident), "{",
+      "}"
     ),
 
     structdef: $ => seq(
@@ -49,8 +55,8 @@ module.exports = grammar({
 
     alt: $ => seq($.ident, "(", optional($.typelist), ")", ";"),
 
-    portdef: $ => seq(
-      "port", field("name", $.ident), "{",
+    socketdef: $ => seq(
+      "socket", field("name", $.ident), "{",
         repeat($.channel),
       "}"
     ),
@@ -80,7 +86,7 @@ module.exports = grammar({
       $.outgoing,
       $.node,
       $.reg,
-      $.port,
+      $.socket,
     ),
 
     implicit: $ => seq("implicit", field("name", $.ident), ":", field("type", $.type)),
@@ -88,9 +94,9 @@ module.exports = grammar({
     outgoing: $ => seq("outgoing", field("name", $.ident), ":", field("type", $.type)),
     node: $ => seq("node", field("name", $.ident), ":", field("type", $.type)),
     reg: $ => seq("reg", field("name", $.ident), ":", field("type", $.type), choice("on", field("on", $.path))),
-    port: $ => seq(field("role", $.port_role), "port", field("name", $.ident), "of", field("portdef", $.ident)),
+    socket: $ => seq(field("role", $.socket_role), "socket", field("name", $.ident), "of", field("socketdef", $.ident)),
 
-    port_role: $ => choice(
+    socket_role: $ => choice(
       "master",
       "slave",
     ),
@@ -158,12 +164,20 @@ module.exports = grammar({
       seq($.expr, "[", $.nat, "..", $.nat, "]"),
     ),
 
-    expr_lit: $ => $._word_lit,
+    expr_lit: $ => choice(
+      $.word_lit,
+      $.bool,
+    ),
     expr_reference: $ => $.path,
 
-    _word_lit: $ => choice(
+    word_lit: $ => choice(
       $.word,
       $.nat,
+    ),
+
+    bool: $ => choice(
+      "true",
+      "false",
     ),
 
     _expr_list: $ => seq($.expr, repeat(seq(",", $.expr)), optional(",")),
@@ -171,11 +185,13 @@ module.exports = grammar({
     type: $ => choice(
       $.type_clock,
       $.type_word,
+      $.type_bit,
       $.qualident,
     ),
 
     type_clock: $ => "Clock",
     type_word: $ => seq("Word", "[", $.nat, "]"),
+    type_bit: $ => "Bit",
 
     path: $ => /(([_A-Za-z][_A-Za-z0-9]*)\.)*([_A-Za-z][_A-Za-z0-9]*)/,
     word: $ => choice(
